@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block title %}
+=====register page=====
+{% endblock %}
+
+{% block content %}
+<style type="text/css">
+  .signin {
+  text-align: center;
+  font-size: 22px;
+  line-height: 1rem;
+  color: rgba(156, 163, 175, 1);
+}
+</style>
+<div class="container my-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h4>Registration Form</h4>
+        </div>
+          {% if error %}
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>Error!</strong> {{ error }}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+          {% endif %}
+          {% if messages %}
+          {% for message in messages %}
+           <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+  <strong>Error!</strong> {{ message }}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+          {% endfor %}
+          {% endif %}
+        <div class="card-body">
+          <form action="{% url 'signup' %}" method="post">
+              {% csrf_token %}
+              <center>
+            <div class="form-group">
+              <label for="role">Select Role:</label>
+              <select class="form-control" name="role" id="role" required="true">
+                <option>====select Role====</option>
+                <option>Candidate</option>
+                <option>Company</option>
+              </select>
+            </div>
+                  </center>
+            <div class="form-group">
+              <label for="first-name">First Name:</label>
+              <input type="text" class="form-control" name="fname" id="first-name" placeholder="Enter your first name" autocomplete="off" value=" {{ values.fname }} " required="true"  formmethod="post" step="0" autofocus>
+            </div>
+            <div class="form-group">
+              <label for="last-name">Last Name:</label>
+              <input type="text" class="form-control" name="lname" id="last-name" placeholder="Enter your last name" autocomplete="off" value=" {{ values.lname }} " required="true" step="0" formmethod="post" autofocus>
+            </div>
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="email" class="form-control" name="mail" id="email" placeholder="Enter your email address" autocomplete="off" value=" {{values.email }} " required="true" step="0"  formmethod="post" autofocus>
+            </div>
+            <div class="form-group">
+              <label for="password">Password:</label>
+              <input type="password" class="form-control" name="passwd" id="password" placeholder="Enter your password" value=" {{ values.password  }} " autocomplete="off" required="true" step="0" formmethod="post" autofocus>
+            </div>
+            <div class="form-group">
+              <label for="confirm-password">Confirm Password:</label>
+              <input type="password" class="form-control" name="cpasswd" id="confirm-password" placeholder="Confirm your password" value=" {{ values.c_password }} " autocomplete="off" required="true" step="0"  formmethod="post" autofocus>
+            </div>
+              <button type="submit" formmethod="post" class="btn btn-primary">Register</button>
+            <div class="mt-4">
+<p class="signin"> have an account?
+    <strong><a style="color: #6272A4;  " rel="noopener noreferrer" href="/signin" class="">login</a></strong>
+  </p>
+            </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

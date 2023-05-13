@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block title %}
+====otpverify page====
+{% endblock %}
+
+{% block content %}
+<style>
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin: 0px auto;
+  overflow: hidden;
+  padding: 20px;
+  background: #606c88;
+  background: -webkit-linear-gradient(to right, #3f4c6b, #606c88);
+  background: linear-gradient(to right, #3f4c6b, #606c88);
+  border-radius: 10px;
+  box-shadow: 0px 87px 78px -39px rgba(0,0,0,0.4);
+  max-width: 320px;
+}
+
+.info {
+  margin-bottom: 10px;
+}
+
+.title {
+  color: #fff;
+  font-size: 1.5rem;
+  line-height: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.description {
+  color: #fff;
+  margin-top: 10px;
+  font-size: 15px;
+}
+
+.form .inputs {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.form .inputs input {
+  height: 2.0em;
+  width: 2.0em;
+  outline: none;
+  text-align: center;
+  font-size: 1.2em;
+  color: #fff;
+  border-radius: 0.3em;
+  border: 1px solid rgba(253, 253, 253, 0.363);
+  background-color: rgb(255 255 255 / 0.05);
+}
+
+.form .inputs input:focus {
+  border: 1px solid rgb(99 102 241);
+}
+
+.resend {
+  color: #fff;
+  margin-top: 10px;
+  font-size: 15px;
+  text-align: center;
+}
+
+.resend-action {
+  text-decoration: none;
+  cursor: pointer;
+  margin-left: 6px;
+  color: rgb(255, 255, 255);
+  font-weight: 600;
+}
+
+.resend-action:hover {
+  text-decoration: underline #2b8af7;
+}
+
+.validate {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  text-decoration: none;
+  background-color: #606c88;
+  padding: 10px 20px;
+  margin: 8px 0 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: .3s ease;
+}
+
+.validate:hover {
+  background-color: #3f4c6b;
+}
+
+.close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background-color: #3f4c6b;
+  height: 30px;
+  width: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+  font-weight: 600;
+  transition: .3s ease;
+}
+
+.close:hover {
+  background-color: rgba(255, 0, 0, 0.603);
+}
+</style>
+{% if msg2 %}
+<div class="alert alert-danger"> {{ msg2 }} </div>
+{% endif %}
+<form class="form my-5" method="post" action="{% url 'login' %}">
+<!--  <span class="close">X</span>-->
+{% csrf_token %}
+  <div class="info">
+  <span class="title">OTP Verification</span>
+      {% if email %}
+      <p class="alert alert-success">An OTP has been sent to the this <input type="text" placeholder="" name="email" value="{{ email }}" style="border-style: none; background-color: #D4EDDA; " readOnly> &nbsp; .Please check your email</p>
+      {% endif %}
+<p class="description">Please enter the code we have sent you. </p>
+   </div>
+    <div class="inputs">
+    <input  placeholder="" name="a" type="tel" maxlength="1">
+    <input  placeholder="" name="b" type="tel" maxlength="1">
+    <input  placeholder="" name="c" type="tel" maxlength="1">
+    <input  placeholder="" name="d" type="tel" maxlength="1">
+    <input  placeholder="" name="e" type="tel" maxlength="1">
+    <input  placeholder="" name="f" type="tel" maxlength="1">
+  </div>
+        <button class="validate" type="submit" >Verify</button>
+<p class="resend">You don't receive the code ?<a class="resend-action">resend</a></p>
+
+</form>
+{% endblock %}
