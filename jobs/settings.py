@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'jobs_app',
-    'django_email_verification'
+    'django_email_verification',
+    'django_countries',
 ]
 
 MIDDLEWARE = [

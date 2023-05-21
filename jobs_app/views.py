@@ -9,6 +9,10 @@ from django.contrib.auth import get_user_model,authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import re
+import requests
+from django_countries import countries
+from django.forms import ValidationError
+# from world_languages import Language 
 
 # Create your views here.
 def index(request):
@@ -176,12 +180,20 @@ def signin(request):
                 myuser=authenticate(username=email,password=password)
                 if myuser is not None:
                     login(request,myuser)
-                    can=User.objects.get(email=email)    
+                    can=User.objects.get(email=email)
+                    firstname=can.first_name
+                    lastname=can.last_name
+                    email=can.email
+                    context={
+                    'lastname':lastname,
+                    'firstname':firstname,
+                    'email':email
+                    }    
                     request.session["role"]=request.POST["role"]
                     request.session["firstname"]=can.first_name
                     request.session["lastname"]=can.last_name
                     request.session["id"]=request.POST['mail']
-                    return redirect('/')
+                    return render(request,"index.html",context)
                 else:
                     messages.warning(request,"Incorrect your entered password...")
                     return render(request,"login.html")
@@ -213,17 +225,58 @@ def OTPpage():
     pass
 def signout(request):
     if request.session.has_key('id'):
-        del request.session["role"]
-        del request.session["firstname"]
-        del request.session['lastname']
-        del request.session["id"]
+        logout(request)
+        # del request.session["role"]
+        # del request.session["firstname"]
+        # del request.session['lastname']
+        # del request.session["id"]
         messages.warning(request,"please complete login otherwise not access any page")
         return render(request,"login.html")
     else:
         return render(request,"login.html")
 def user_profile(request):
     if request.session.has_key('id'):
-        return render(request,"user_profile.html")
+        pk=request.session['id']
+        user=UserMaster.objects.get(email=pk)
+        email=user.email
+        can=Candidate.objects.get(user_id=user)
+        firstname=can.firstname
+        lastname=can.lastname
+        if request.method=='POST':
+            can=request.can
+            can.contact=request.POST['contact']
+            can.state=request.POST['state']
+            can.city=request.POST['city']
+            can.address=request.POST['addr']
+            can.dob=request.POST['dob']
+            can.gender=request.POST['gender']
+            can.pin=request.POST['pincode']
+            can.education=request.POST['education']
+            can.experince=request.POST['experince']
+            can.country=request.POST['country']
+            can.skill=request.POST['skill']
+            can.annual_pay=request.POST['salary']
+            can.language=request.POST['lang']
+            can.bio=request.POST['bio']
+            can.resume=request.FILES['resume']
+            can.profile_pic=request.FILES['photo']
+            # err=None
+            # pattern = r'^\d{3}-\d{3}-\d{4}$'
+            # if can.contact!=10:
+            #     err="Oops! The contact number should have exactly 10 digits."
+            # if not (can.contact).isdigit():
+            #     err="Oops! The contact number should only contain numeric digits."
+            # if re.match(pattern,(can.contact)):
+            #     err="Oops! The contact number is in an incorrect format."
+            can.save()
+            return redirect('/')
+        context={
+        'firstname':firstname,
+        'lastname':lastname,
+        'email':email,
+        'countries':countries,
+        }
+        return render(request,"user_profile.html",context)
     else:
         return render(request,"login.html")
     

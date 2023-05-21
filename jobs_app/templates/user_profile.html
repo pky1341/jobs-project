@@ -50,44 +50,126 @@
     border: solid 1px #BA68C8
 }
 </style>
- <div class="container rounded bg-white mt-5 mb-5">
+{% load countries %}
+ <div class="container-fluid  rounded bg-white mt-5 mb-5">
     <div class="row">
         <div class="col-md-3 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">Edogaru</span><span class="text-black-50">edogaru@mail.com.my</span><span> </span></div>
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"> {% if firstname %} <span class="font-weight-bold"> {{firstname}} {{lastname}} </span>{% endif %} {% if email %} <span class="text-black-50">{{ email }}</span>{%  endif %}</div>
         </div>
+        
         <div class="col-md-5 border-right">
             <div class="p-3 py-5">
+            	<form method="POST" action="{% url 'home' %}" enctype="multipart/form-data">
+        	{% csrf_token %}
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="text-right">Profile Update</h4>
                 </div>
                 <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control" placeholder="first name" value=""></div>
-                    <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control" value="" placeholder="surname"></div>
+                    <div class="col-md-6"><label class="labels">firstName</label><input type="text" class="form-control" placeholder="first name" value="{{ firstname }}" readonly></div>
+                    <div class="col-md-6"><label class="labels">lastname</label><input type="text" class="form-control" value="{{ lastname }}" placeholder="surname" readonly></div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control" placeholder="enter phone number" value=""></div>
-                    <div class="col-md-12"><label class="labels">Address Line 1</label><input type="text" class="form-control" placeholder="enter address line 1" value=""></div>
-                    <div class="col-md-12"><label class="labels">Address Line 2</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-                    <div class="col-md-12"><label class="labels">Postcode</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-                    <div class="col-md-12"><label class="labels">State</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-                    <div class="col-md-12"><label class="labels">Area</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-                    <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control" placeholder="enter email id" value=""></div>
-                    <div class="col-md-12"><label class="labels">Education</label><input type="text" class="form-control" placeholder="education" value=""></div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control" placeholder="country" value=""></div>
-                    <div class="col-md-6"><label class="labels">State/Region</label><input type="text" class="form-control" value="" placeholder="state"></div>
-                </div>
-                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
+                    <div class="col-md-12"><label class="labels" for="contact">Mobile Number</label><input type="tel" class="form-control" id="contact" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="enter phone number" name="contact" value="">
+                    <small>format:234-346-4577</small>
+                    </div>
+                    <div class="col-md-12"><label class="labels" for="state">State</label><input type="text" name="state" class="form-control" id="contact" placeholder="enter your state" value=""></div>
+                    <div class="col-md-12"><label class="labels"for="city">city</label><input type="text" id="city" class="form-control" placeholder="enter your city" value="" name="city"></div>
+                    <div class="col-md-12"><label class="labels" for=addr">Address </label><input type="text" id="addr" class="form-control" placeholder="enter address" value="" name="addr"></div>
+                    <div class="col-md-12"><label class="labels" for="pincode">Postcode</label><input type="text" id="pincode" name="pincode" class="form-control" placeholder="enter your pincode" value=""></div>
+                    <div class="col-md-12"><label class="labels" for="dob">date of birth</label><input type="date" class="form-control" id="dob" name="dob" placeholder="enter date of birth" value=""></div>
+                    <div class="form-group mt-3">
+            <label for="gender">Gender:</label>
+            <div class="form-check d-inline mx-4">
+                <input class="form-check-input" type="radio" name="gender" id="gender" value="male" required>
+                <label class="form-check-label" for="male">
+                    Male
+                </label>
+            </div>
+            <div class="form-check d-inline mx-4">
+                <input class="form-check-input" type="radio" name="gender" id="gender" value="female">
+                <label class="form-check-label" for="female">
+                    Female
+                </label>
+            </div>
+            <div class="form-check d-inline mx-4">
+                <input class="form-check-input" type="radio" name="gender" id="gender" value="other">
+                <label class="form-check-label" for="other">
+                    Other
+                </label>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center experience"><span>Edit Experience</span><span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Experience</span></div><br>
-                <div class="col-md-12"><label class="labels">Experience in Designing</label><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
-                <div class="col-md-12"><label class="labels">Additional Details</label><input type="text" class="form-control" placeholder="additional details" value=""></div>
+                    <div class="col-md-12"><label class="labels" for="email">Email ID</label><input type="text" class="form-control" placeholder="enter email id" id="email" name="email" value="{{ email }}" readonly></div>
+                    
+            <!-- <div class="card my-3"> -->
+                    <fieldset class="card my-3">
+                    	<legend >Education Details</legend>
+                <label for="Education" >Highest Education:</label>
+                <input type="text" name="education" id="Education">
+            </fieldset>
+            <div class="form-group d-flex" >
+            <label for="experince">Experience:</label>
+            <select class="form-control mx-3" id="experince" name="experince">
+                <option value="" selected >Select experience level</option>
+                <option value="">
+                	fresher
+                </option>
+                <option>1 year </option>
+                <option>2 year </option>
+                <option>3 year </option>
+                <option>4 year </option>
+                <option>5 year</option>
+                <option>more then 5 year </option>
+            </select>
+        </div>
+        </div>
+        <div class="form-group d-flex" >
+            <label for="country">country:</label>
+             <select class=" form-control mx-3" id="country" name="country">
+      <option value="">======select country======</option>
+      {%  if countries %}
+      {% for code,name in countries %}
+            <option value=" {{code}} "> {{name}} </option>
+      {% endfor %}
+      {% endif %}
+    </select>
+        </div>
+        <div class="col-md-12"><label class="labels" for="skill">skill</label><textarea type="text" cols="30" rows="5" class="form-control" placeholder="enter skill" value="" id="skill" name="skill"></textarea></div>
+        <div class="form-group">
+            <label for="salary">Salary Expectation:</label>
+            <div class="input-group">
+                <input type="number" class="form-control" id="salary" name="salary" required>
+                <div class="input-group-append">
+                    <span class="input-group-text">rupay</span>
+                </div>
+            </div>
+            <small class="form-text text-muted">Please enter your salary expectation in rupees.</small>
+        </div>
+        <div class="form-group d-block">
+            <legend>Communication Language</legend>
+            <label for="Hindi" >Hindi:</label>&nbsp;&nbsp;
+            <input type="checkbox" name="lang" id="Hindi" value="Hindi">&nbsp;&nbsp;
+            <label for="English" >English:</label>&nbsp;&nbsp;            <input type="checkbox" name="lang" id="English" value="English">
+        </div>
+        <div class="col-md-12"><label class="labels" for="bio">bio</label><textarea type="text" cols="30" rows="5" class="form-control" placeholder="enter bio" value="" id="bio" name="bio"></textarea></div>
+                        <div class="form-group">
+            <label for="resume">Upload resume:</label>
+            <div class="custom-file">
+<input id="resume" type="file" class="form-control-file" name="resume" accept=".pdf,.doc,.docx" required>
+                                <small class="form-text text-muted">Supported file formats: PDF, DOC, DOCX</small>
             </div>
         </div>
+                        <div class="form-group">
+            <label for="photoInput">Upload Photo:</label>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="photoInput" name="photo" accept="image/*" required>
+                <label class="custom-file-label" for="photoInput">Choose file</label>
+            </div>
+        </div>
+                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Save Profile</button></div>
+                </form>
+            </div>
+        </div>
+        
     </div>
 </div>
 </div>

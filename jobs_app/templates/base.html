@@ -22,6 +22,7 @@
             <link rel="stylesheet" href="/static/assets/css/slick.css">
             <link rel="stylesheet" href="/static/assets/css/nice-select.css">
             <link rel="stylesheet" href="/static/assets/css/style.css">
+
   </head>
   <body>
     <!-- Preloader Start -->
@@ -70,14 +71,14 @@
                                     </nav>
                                 </div>          
                                 <div class="header-btn d-content f-right me-5 d-lg-block">
-                                    {% if request.session.firstname %}
+                                    {% if user.is_authenticated %}
                                     <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <img src="data:image/jpeg;base64,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" class="rounded-circle mr-2" height="40px" width="40px"> {{ request.session.firstname }}
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="{% url 'user_profile' %}">Profile</a>
+          <a class="dropdown-item" href=" {% url 'user_profile' %} ">Profile</a>
           <a class="dropdown-item" href="#">Settings</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="/signout">Logout</a>
@@ -133,7 +134,7 @@
                                         here, your demo address.</p>
                                     </li>
                                     <li><a href="#">Phone : +8880 44338899</a></li>
-                                    <li><a href="#">Email : info@colorlib.com</a></li>
+                                    <li><a href="#">Email : pky@yadav.com</a></li>
                                 </ul>
                             </div>
 
@@ -269,7 +270,8 @@
         <script src="./static/assets/js/mail-script.js"></script>
         <script src="./static/assets/js/jquery.ajaxchimp.min.js"></script>
         
-		<!-- Jquery Plugins, main Jquery -->	
+		<!-- Jquery Plugins, main Jquery -->
+
         <script src="./static/assets/js/plugins.js"></script>
         <script src="./static/assets/js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
