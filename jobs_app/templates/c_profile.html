@@ -1,0 +1,365 @@
+{% extends 'base.html' %}
+
+{% block title %}
+===complete profile updation====
+{% endblock %}
+{% block content %}
+{% load static %}
+<style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Climate+Crisis&family=Libre+Baskerville&family=Lobster&family=Lora&family=Roboto+Slab:wght@500&display=swap');
+
+    /*    normal desktop*/
+    @media (min-width:1200px) and (max-width:1500px) {
+        .cen {
+            max-width: 130px;
+            height: 132px;
+        }
+
+        .sec1 {
+            width: auto;
+            background-image: url(https://images.unsplash.com/photo-1488572749058-7f52dd70e0fa?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=400&ixid=MnwxfDB8MXxyYW5kb218MHx8d2FsbHBhcGVyLGxhbmRzY2FwZXx8fHx8fDE2ODU0NDM0MjM&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1920);
+            background-size: cover;
+            background-attachment: fixed;
+            background-origin: content-box;
+            background-clip: padding-box;
+        }
+
+        .btn-lg {
+            margin-top: 160px;
+            /*background: none;*/
+            padding: 13px 19px;
+
+        }
+
+        .col-6 {
+            border-width: medium !important;
+            font-family: 'Roboto Slab', serif;
+            font-size: larger;
+        }
+    }
+
+    /*    normal laptop*/
+    @media (min-width:991px) and (max-width:1199px) {
+        .sec1 {
+            width: auto;
+            margin-left: 0px;
+            background-image: url(https://images.unsplash.com/photo-1488572749058-7f52dd70e0fa?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=400&ixid=MnwxfDB8MXxyYW5kb218MHx8d2FsbHBhcGVyLGxhbmRzY2FwZXx8fHx8fDE2ODU0NDM0MjM&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1920);
+            background-size: cover;
+            background-attachment: fixed;
+            background-origin: content-box;
+            background-clip: padding-box;
+        }
+
+        .btn-lg {
+            margin-top: 160px;
+            /*background: none;*/
+            padding: 11px 17px;
+        }
+
+        .col-6 {
+            border-width: medium !important;
+            font-family: 'Roboto Slab', serif;
+            font-size: larger;
+        }
+    }
+
+    /*    normal tablet*/
+    @media (min-width:765px) and (max-width:990px) {
+        .sec1 {
+            width: auto;
+            margin-left: 0px;
+            background-image: url(https://images.unsplash.com/photo-1488572749058-7f52dd70e0fa?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=400&ixid=MnwxfDB8MXxyYW5kb218MHx8d2FsbHBhcGVyLGxhbmRzY2FwZXx8fHx8fDE2ODU0NDM0MjM&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1920);
+            background-size: cover;
+            background-attachment: fixed;
+            background-origin: content-box;
+            background-clip: padding-box;
+        }
+
+        .btn-lg {
+            margin-top: 160px;
+            /*background: none;*/
+            padding: 9px 15px;
+        }
+
+        .col-6 {
+            border-width: medium !important;
+            font-family: 'Roboto Slab', serif;
+            font-size: larger;
+        }
+
+    }
+
+    /*    large mobile*/
+    @media only screen and (min-width:481px) and (max-width:764px) {
+        .sec1 {
+            width: auto;
+            margin-left: 0px;
+            background-image: url(https://images.unsplash.com/photo-1488572749058-7f52dd70e0fa?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=400&ixid=MnwxfDB8MXxyYW5kb218MHx8d2FsbHBhcGVyLGxhbmRzY2FwZXx8fHx8fDE2ODU0NDM0MjM&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1920);
+            background-size: cover;
+            background-attachment: fixed;
+            background-origin: content-box;
+            background-clip: padding-box;
+        }
+
+        .btn-lg {
+            margin-top: 160px;
+            /*background: none;*/
+            padding: 8px 14px;
+        }
+
+        .col-6 {
+            border-width: thin !important;
+            font-family: 'Roboto Slab', serif;
+            font-size: larger;
+        }
+    }
+
+    /*    small mobile*/
+    @media (max-width:480px) {
+        .sec1 {
+            width: auto;
+            margin-left: 0px;
+            background-image: url(https://images.unsplash.com/photo-1488572749058-7f52dd70e0fa?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=400&ixid=MnwxfDB8MXxyYW5kb218MHx8d2FsbHBhcGVyLGxhbmRzY2FwZXx8fHx8fDE2ODU0NDM0MjM&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1920);
+            background-size: cover;
+            background-attachment: fixed;
+            background-origin: content-box;
+            background-clip: padding-box;
+        }
+
+        .btn-lg {
+            margin-top: 160px;
+            /*background: none;*/
+            padding: 7px 12px;
+        }
+
+        .col-6 {
+            border-width: thick !important;
+            font-family: 'Roboto Slab', serif;
+            font-size: larger;
+        }
+    }
+
+</style>
+
+<div class="container">
+    <section>
+    {% if messages %}
+    
+        {% for message in messages %}
+        <div class="alert alert-{{message.tags}} d-flex align-items-center" role="alert">
+            <div>
+                {{message}}
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    
+    {%  endif %}
+    </section>
+    <main class="my-5">
+        <section class="sec1 border border-5">
+            <div class="row my-3">
+                <div class="col-md-11">
+                    <div class="w-25 m-auto">
+                        <ul style="width: fit-content;">
+                            <li>
+                                <!--                               <center>-->
+                                <div class=" cen ">
+
+                                    <img src="{{cand.profile_pic.url}}" alt="load image" loading="lazy" height="132px" width="130px" class="rounded-circle">
+                                </div>
+                                <!--                                </center>-->
+                            </li>
+                            <li>
+                                <span>
+
+                                    <em>
+                                        {{cand.firstname}}{{cand.lastname}}
+                                    </em>
+
+                                </span>
+                            </li>
+                            <li>
+                                <span>
+
+                                    <strong>
+                                        {{user_m.email}}
+                                    </strong>
+
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <aside>
+                        <a href="{% url 'edit' %}" type="button" class="btn btn-secondary btn-lg float-end">Edit Profile</a>
+                    </aside>
+                </div>
+            </div>
+        </section>
+        <div class="container-sm my-3">
+            <section>
+                <div class="row">
+                    <div class="col-sm-6 m-auto w-100 ">
+                        <div class="row">
+                            <div class="col-6 text-center border border-3 border-secondary">First-Name</div>
+                            <div class="col-6 text-center border border-3 border-secondary ">{{cand.firstname}}</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="row">
+                    <div class="col-sm-6 m-auto w-100 ">
+                        <div class="row">
+                            <div class="col-6 text-center border border-3 border-secondary">Last-Name</div>
+                            <div class="col-6 text-center border border-3 border-secondary ">{{cand.lastname}}</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="row">
+                    <div class="col-sm-6 m-auto w-100 ">
+                        <div class="row">
+                            <div class="col-6 text-center border border-3 border-secondary">Phone-Number</div>
+                            <div class="col-6 text-center border border-3 border-secondary ">{{cand.contact}}</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="row">
+                    <div class="col-sm-6 m-auto w-100 ">
+                        <div class="row">
+                            <div class="col-6 text-center border border-3 border-secondary">your State</div>
+                            <div class="col-6 text-center border border-3 border-secondary ">{{cand.state}}</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="row">
+                    <div class="col-sm-6 m-auto w-100 ">
+                        <div class="row">
+                            <div class="col-6 text-center border border-3 border-secondary">Your City</div>
+                            <div class="col-6 text-center border border-3 border-secondary ">{{cand.city}}</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="row">
+                    <div class="col-sm-6 m-auto w-100 ">
+                        <div class="row">
+                            <div class="col-6 text-center border border-3 border-secondary">Your-Address</div>
+                            <div class="col-6 text-center border border-3 border-secondary ">{{cand.address}}</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="row">
+                    <div class="col-sm-6 m-auto w-100 ">
+                        <div class="row">
+                            <div class="col-6 text-center border border-3 border-secondary">Date-Of-Birth</div>
+                            <div class="col-6 text-center border border-3 border-secondary ">{{cand.dob}}</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="row">
+                    <div class="col-sm-6 m-auto w-100 ">
+                        <div class="row">
+                            <div class="col-6 text-center border border-3 border-secondary">Gender</div>
+                            <div class="col-6 text-center border border-3 border-secondary ">{{cand.gender}}</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="row">
+                    <div class="col-sm-6 m-auto w-100 ">
+                        <div class="row">
+                            <div class="col-6 text-center border border-3 border-secondary">Postal-Code</div>
+                            <div class="col-6 text-center border border-3 border-secondary ">{{cand.pin}}</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="row">
+                    <div class="col-sm-6 m-auto w-100 ">
+                        <div class="row">
+                            <div class="col-6 text-center border border-3 border-secondary">Highest Education</div>
+                            <div class="col-6 text-center border border-3 border-secondary ">{{cand.education}}</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="row">
+                    <div class="col-sm-6 m-auto w-100 ">
+                        <div class="row">
+                            <div class="col-6 text-center border border-3 border-secondary">Expriance</div>
+                            <div class="col-6 text-center border border-3 border-secondary ">{{cand.experince}}</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="row">
+                    <div class="col-sm-6 m-auto w-100 ">
+                        <div class="row">
+                            <div class="col-6 text-center border border-3 border-secondary">Your Country</div>
+                            <div class="col-6 text-center border border-3 border-secondary ">{{cand.country}}</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="row">
+                    <div class="col-sm-6 m-auto w-100 ">
+                        <div class="row">
+                            <div class="col-6 text-center border border-3 border-secondary">Skills</div>
+                            <div class="col-6 text-center border border-3 border-secondary ">{{cand.skill}}</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="row">
+                    <div class="col-sm-6 m-auto w-100 ">
+                        <div class="row">
+                            <div class="col-6 text-center border border-3 border-secondary">Your Expectation</div>
+                            <div class="col-6 text-center border border-3 border-secondary ">{{cand.annual_pay}}</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="row">
+                    <div class="col-sm-6 m-auto w-100 ">
+                        <div class="row">
+                            <div class="col-6 text-center border border-3 border-secondary">Spoken Language</div>
+                            <div class="col-6 text-center border border-3 border-secondary ">{{cand.language}}</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="row">
+                    <div class="col-sm-6 m-auto w-100 ">
+                        <div class="row">
+                            <div class="col-6 text-center border border-3 border-secondary">Your-Bio</div>
+                            <div class="col-6 text-center border border-3 border-secondary ">{{cand.bio}}</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+{% endblock %}

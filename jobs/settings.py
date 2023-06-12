@@ -14,6 +14,7 @@ from pathlib import Path
 import django.contrib.gis.db.backends.mysql
 import django.db.backends.mysql
 import django.db.backends.mysql.client
+import os
 # import django_email_verification
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -137,3 +138,5 @@ LOGIN_URL = '/signin/'
 POSTMAN_DISALLOW_ANONYMOUS = True
 LOGIN_REDIRECT_URL = '/'
 
+MEDIA_URL='/images/'
+MEDIA_ROOT=BASE_DIR

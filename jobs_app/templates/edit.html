@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}
+====editable page====
+{% endblock %}
+
+{% block content %}
+<style type="text/css">
+	/*norml desktop*/
+	@media (min-width: 1200px) and (max-width: 1500px) {
+		.mein{
+			background-image: url(https://images.unsplash.com/photo-1502657877623-f66bf489d236?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1080&ixid=MnwxfDB8MXxyYW5kb218MHx8d2FsbHBhcGVyLGxhbmRzY2FwZXx8fHx8fDE2ODY1MDE1NzE&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1920);
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: 100% 100%;
+		}
+
+	}
+    /*normal laptop*/
+	@media  screen and (min-width: 991px) and (max-width: 1199px) {
+		
+	}
+	/*normal tablet*/
+	@media  (min-width: 765px) and (max-width: 990px) {
+		
+	}
+	/*large mobile*/
+	@media only screen and (min-width: 481px) and (max-width: 764px) {
+		
+	}
+	/*normal mobile*/
+	@media (max-width: 480px) {
+		
+	}
+</style>
+<div class="container">
+<main class="my-5 mein" >
+	<div class="container-sm  m-auto" >
+		<section>
+			<div class="row">
+				<div class="col">
+					<label for="firstname" class="col-form-label text-secondary"> First-Name</label>
+				</div>
+				<div class="col">
+					<input type="text" name="" id="firstname" class="form-control">
+				</div>
+			</div>
+		</section>
+		<hr class="border border-3 border-secondary m-0 ">
+	</div>
+</main>
+</div>
+{% endblock %}

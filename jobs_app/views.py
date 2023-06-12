@@ -242,34 +242,6 @@ def user_profile(request):
         can=Candidate.objects.get(user_id=user)
         firstname=can.firstname
         lastname=can.lastname
-        if request.method=='POST':
-            can=request.can
-            can.contact=request.POST['contact']
-            can.state=request.POST['state']
-            can.city=request.POST['city']
-            can.address=request.POST['addr']
-            can.dob=request.POST['dob']
-            can.gender=request.POST['gender']
-            can.pin=request.POST['pincode']
-            can.education=request.POST['education']
-            can.experince=request.POST['experince']
-            can.country=request.POST['country']
-            can.skill=request.POST['skill']
-            can.annual_pay=request.POST['salary']
-            can.language=request.POST['lang']
-            can.bio=request.POST['bio']
-            can.resume=request.FILES['resume']
-            can.profile_pic=request.FILES['photo']
-            # err=None
-            # pattern = r'^\d{3}-\d{3}-\d{4}$'
-            # if can.contact!=10:
-            #     err="Oops! The contact number should have exactly 10 digits."
-            # if not (can.contact).isdigit():
-            #     err="Oops! The contact number should only contain numeric digits."
-            # if re.match(pattern,(can.contact)):
-            #     err="Oops! The contact number is in an incorrect format."
-            can.save()
-            return redirect('/')
         context={
         'firstname':firstname,
         'lastname':lastname,
@@ -279,4 +251,137 @@ def user_profile(request):
         return render(request,"user_profile.html",context)
     else:
         return render(request,"login.html")
-    
+def  p_update(request):
+    pk=request.session['id']
+    print(pk)
+    if pk:
+        user_m=UserMaster.objects.get(email=pk)
+        can=Candidate.objects.get(user_id=user_m)
+        if can:
+            if request.method=='POST':
+                print(can.firstname)
+                if can.firstname==request.POST['fname']:
+                    can.firstname=request.POST['fname']
+                    can.lasttname=request.POST['lname']
+                    user_m.email=request.POST['email']
+                    can.contact=request.POST['contact']
+                    can.state=request.POST['state']
+                    can.city=request.POST['city']
+                    can.address=request.POST['addr']
+                    can.dob=request.POST['dob']
+                    can.gender=request.POST['a']
+                    can.pin=request.POST['pincode']
+                    can.education=request.POST['education']
+                    can.experince=request.POST['experince']
+                    can.country=request.POST['country']
+                    can.skill=request.POST['skill']
+                    can.annual_pay=request.POST['salary']
+                    can.language=request.POST['lang']
+                    can.bio=request.POST['bio']
+                    can.resume=request.FILES['resume']
+                    can.profile_pic=request.FILES['photo']
+                    values={
+                    'contact':can.contact,
+                    'city':can.city,
+                    'state':can.state,
+                    'address':can.address,
+                    'dob':can.dob,
+                    'gender':can.gender,
+                    'pin':can.pin,
+                    'experince':can.experince,
+                    "education":can.education,
+                    'country':can.country,
+                    'skill':can.skill,
+                    'annual_pay':can.annual_pay,
+                    'language':can.language,
+                    'bio':can.bio,
+                    'resume':can.resume,
+                    'profile_pic':can.profile_pic
+                    }
+                    err=None
+                    context={}
+                    # pattern = r'^\d{3}-\d{3}-\d{4}$'
+                    if len(can.contact)!=10:
+                        err="Oops! The contact number should have exactly 10 digits."
+                    if not (can.contact).isdigit():
+                        err="Oops! The contact number should only contain numeric digits."
+                    # if re.match(pattern,(can.contact)):
+                    #     err="Oops! The contact number is in an incorrect format."
+                    if not can.state:
+                        err="State name is required."
+                    if len(can.state)<2 and len(can.state)>50:
+                        err="State name should be between 2 and 50 characters."
+                    if not re.match(r'^[A-Za-z0-9\s\.,?!]+$',can.state):
+                        err="State name should contain only alphabetic characters."
+                    if can.state.isspace():
+                        err="spaces are not allowed"
+                    if not can.city:
+                        err="city name is required."
+                    if len(can.city)<2 and len(can.city)>50:
+                        err="city name should be between 2 and 50 characters."
+                    if not re.match(r'^[A-Za-z0-9\s\.,?!]+$',can.city):
+                        err="city name should contain only alphabetic characters."
+                    if (can.city).isspace():
+                        err="spaces are not allowed"
+                    if not can.address:
+                        err="address is required."
+                    if len(can.address)<2 and len(can.address)>50:
+                        err="address should be between 2 and 50 characters."
+                    if not re.match(r'^[A-Za-z0-9\s\.,?!]+$',can.address):
+                        err="address should contain only alphabetic characters."
+                    if (can.address).isspace():
+                        err="spaces are not allowed"
+                    if not can.dob:
+                        err="date of birth is required"
+                    if len(can.pin)!=6:
+                        err="Oops! PIN code should be 6 digits long!!!!"
+                    if not can.education:
+                        err="Oops!! your highest education is required!!!!"
+                    if not (can.education).isalpha():
+                        err="Oops!!education should contain only characters!!.."
+                    if (can.education).isspace():
+                        err="education are not allowed spaces!!!"
+                    if request.POST['experince']=="Select experience level":
+                        err="please select your work experience!!!"
+                    if request.POST['country']=="======select country======":
+                        err="please select your country name!!!"
+                    if not re.match( r'^[A-Za-z0-9\s\.,?!]+$',(can.skill)):
+                        err="skills should contain only alphabetic characters."
+                    if (can.skill).isspace():
+                        err="only spaces are not allowed"
+                    if not re.match( r'^[A-Za-z0-9\s\.,?!]+$',(can.bio)):
+                        err="Invalid bio format."
+                    if (can.bio).isspace():
+                        err="only spaces are not allowed"
+                    if err:
+                        context['values']=values
+                        context['err']=err
+                        context['firstname']=can.firstname
+                        context['lastname']=can.lastname
+                        context['email']=user_m.email
+                        return render(request,"user_profile.html",context)
+                    else:
+                        can.save()
+                        messages.success(request,"your account succcessfully updated...!!")
+                        request.session['number']=can.contact
+                        return redirect('/c-profile') 
+                else:
+                    messages.warning(request,"Invalid credientials!!!")
+                    return redirect('/user_profile')  
+def c_profile(request):
+    if request.session.has_key('id'):
+        pk=request.session['id']
+        if pk:
+            user_m=UserMaster.objects.get(email=pk)
+            cand=Candidate.objects.get(user_id=user_m)
+            context={}
+            context['user_m']=user_m
+            context['cand']=cand
+            return render(request,'c_profile.html',context)
+    else:
+        return render(request,'login.html')
+def edit(request):
+    if request.session.has_key('id'):
+        return render(request,"edit.html")
+    else:
+        return  render(request,"login.html")
