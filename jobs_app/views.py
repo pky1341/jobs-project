@@ -16,15 +16,9 @@ from django.forms import ValidationError
 
 # Create your views here.
 def index(request):
-    if request.session.has_key('id'):
-        return render(request,'index.html')
-    else:
-        return redirect('signin')
+    return render(request,'index.html')
 def job_listing(request):
-    if request.session.has_key('id'):
-        return render(request,'job_listing.html')
-    else:
-        return redirect('signin')
+    return render(request,'job_listing.html')
 def about(request):
     if request.session.has_key('id'):
         return render(request,'about.html')
@@ -195,7 +189,7 @@ def signin(request):
                     request.session["id"]=request.POST['mail']
                     return render(request,"index.html",context)
                 else:
-                    messages.warning(request,"Incorrect your entered password...")
+                    messages.warning(request,"Do not match your entered password...")
                     return render(request,"login.html")
             elif request.POST['role']=="Company":
                 role=request.POST['role']
@@ -211,7 +205,7 @@ def signin(request):
                     request.session["id"]=request.POST['mail']
                     return redirect('/')    
                 else:
-                    messages.warning(request,"Incorrect your entered password...")
+                    messages.warning(request,"Do not match your entered password...")
                     return render(request,"login.html")
             else:
                 messages.warning(request,"please select your role!!!")
@@ -262,7 +256,7 @@ def  p_update(request):
                 print(can.firstname)
                 if can.firstname==request.POST['fname']:
                     can.firstname=request.POST['fname']
-                    can.lasttname=request.POST['lname']
+                    can.lastname=request.POST['lname']
                     user_m.email=request.POST['email']
                     can.contact=request.POST['contact']
                     can.state=request.POST['state']
@@ -363,7 +357,8 @@ def  p_update(request):
                     else:
                         can.save()
                         messages.success(request,"your account succcessfully updated...!!")
-                        request.session['number']=can.contact
+                        ph_num=Candidate.objects.get(user_id=user_m)
+                        request.session['number']=ph_num.contact
                         return redirect('/c-profile') 
                 else:
                     messages.warning(request,"Invalid credientials!!!")
