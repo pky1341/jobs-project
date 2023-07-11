@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-=====register page=====
+=====company register page=====
 {% endblock %}
 
 {% block content %}
@@ -34,7 +34,7 @@
           {% endfor %}
           {% endif %}
         <div class="card-body">
-          <form action="{% url 'signup' %}" method="post">
+          <form action="{% url 'com_register' %}" method="post">
               {% csrf_token %}
             <div class="form-group">
               <label for="username">User-Name:</label>

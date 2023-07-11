@@ -45,6 +45,13 @@ INSTALLED_APPS = [
     'jobs_app',
     'django_email_verification',
     'django_countries',
+     # 3rd party
+    "allauth", # new
+    "allauth.account", # new
+    "allauth.socialaccount", # new
+    # social providers
+    "allauth.socialaccount.providers.github", # new
+    "allauth.socialaccount.providers.twitter", # new
 ]
 
 MIDDLEWARE = [
@@ -55,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'jobs.urls'
@@ -70,10 +78,14 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                # 'social_django.context_processors.backends',  # <-- Here
+                # 'social_django.context_processors.login_redirect', # <-- Here
             ],
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'jobs.wsgi.application'
 
@@ -110,6 +122,12 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SITE_ID = 1
 
 
 # Internationalization
@@ -134,9 +152,14 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # settings.py
-LOGIN_URL = '/signin/'
+LOGIN_URL = 'signin'
 POSTMAN_DISALLOW_ANONYMOUS = True
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = 'home'
+ACCOUNT_LOGOUT_ON_GET = True
 
 MEDIA_URL='/images/'
 MEDIA_ROOT=BASE_DIR
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
+# SOCIAL_AUTH_FACEBOOK_KEY = '990224259088762'  # App ID
+# SOCIAL_AUTH_FACEBOOK_SECRET = '41170a9b1549e2fc8641dda520e917b6'  # App Secret

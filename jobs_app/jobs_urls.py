@@ -1,6 +1,8 @@
-from django.urls import path,include
+from django.urls import path,include,re_path
 from jobs_app import views
 from django_email_verification import urls as mail_urls
+from .views import Home #new
+
 urlpatterns=[
     path('',views.index,name='home'),
     path('job_listing',views.job_listing,name="job_list"),
@@ -17,5 +19,8 @@ urlpatterns=[
     path("user_profile",views.user_profile,name="user_profile"),
     path('p-update',views.p_update,name="p_update"),
     path('c-profile',views.c_profile,name="c_profile"),
-    path('edit',views.edit,name="edit")  
+    path('edit',views.edit,name="edit"),
+    path('github_login', views.github_login, name='github_login'),
+    path('com-register',views.com_register,name="com_register"),
+    path('company-login',views.com_login,name="company_login")  
 ]

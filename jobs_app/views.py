@@ -12,9 +12,12 @@ import re
 import requests
 from django_countries import countries
 from django.forms import ValidationError
-# from world_languages import Language 
-
+from django.views.generic import TemplateView
 # Create your views here.
+
+
+class Home(TemplateView):
+    template_name = "index.html"
 def index(request):
     return render(request,'index.html')
 def job_listing(request):
@@ -53,125 +56,54 @@ def contact(request):
 def signup(request):
     try:
         if request.method=="POST":
-            if request.POST['role']=="Candidate":
-                role=request.POST['role']
-                firstname=request.POST['fname']
-                lastname=request.POST['lname']
-                email=request.POST['mail']
-                password=request.POST['passwd']
-                c_password=request.POST['cpasswd']
-                values={
-                'fname':firstname,
-                'lname':lastname,
-                'role':role,
-                'email':email,
-                'password':password,
-                'c_password':c_password
-                }
-                err=None
-                pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$'
-                if not (role and firstname and lastname and email and password):
-                    err="all field are required"
-                elif len(firstname) < 3:
-                    err="First name should be at least 2 characters long "
-                elif not re.match(r'^[a-zA-Z ]+$',firstname):
-                    err="First name should only contain letters and spaces."
-                elif firstname.isspace():
-                    err="Invalid first name. Spaces are not allowed."
-                elif len(lastname) < 3:
-                    err="last name should be at least 2 characters long  "
-                elif not re.match(r'^[a-zA-Z ]+$',lastname):
-                    err="last name should only contain letters and spaces."
-                elif lastname.isspace():
-                    err="Invalid first name. Spaces are not allowed."
-                elif len(password)<8:
-                    err="Password must be 8 characters long "
-                elif not re.match(pattern,password):
-                    err="Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character "
-                elif password!=c_password:
-                    err="password do not match "
-                elif UserMaster.objects.filter(email=email).exists():
-                    err="This email address is already taken "
-                data={}
-                data['error']=err
-                data['values']=values
-                if err:
-                    return render(request,"register.html",data)
-                user_m=UserMaster(role=role,password=password,email=email)
-                user_m.save()
-                can=Candidate(user_id=user_m,firstname=firstname,lastname=lastname)
-                can.save()
-                myuser=User.objects.create_user(username=email,email=email,first_name=firstname,last_name=lastname,password=password)
-                myuser.save()
-                messages.success(request,"your account has been succcessfully created...now you needs login..")
-                return redirect('signin')
-            elif request.POST['role']=="Company":
-                role=request.POST['role']
-                firstname=request.POST['fname']
-                lastname=request.POST['lname']
-                email=request.POST['mail']
-                password=request.POST['passwd']
-                c_password=request.POST['cpasswd']
-                values={
-                'fname':firstname,
-                'lname':lastname,
-                'role':role,
-                'email':email,
-                'password':password,
-                'c_password':c_password
-                }
-                err=None
-                pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$'
-                if not (role and firstname and lastname and email and password):
-                    err="all field are required"
-                elif len(firstname) < 3:
-                    err="First name should be at least 2 characters long "
-                elif not re.match(r'^[a-zA-Z ]+$',firstname):
-                    err="First name should only contain letters and spaces."
-                elif firstname.isspace():
-                    err="Invalid first name. Spaces are not allowed."
-                elif len(lastname) < 3:
-                    err="last name should be at least 2 characters long  "
-                elif not re.match(r'^[a-zA-Z ]+$',lastname):
-                    err="last name should only contain letters and spaces."
-                elif lastname.isspace():
-                    err="Invalid first name. Spaces are not allowed."
-                elif len(password)<8:
-                    err="Password must be 8 characters long "
-                elif not re.match(pattern,password):
-                    err="Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character "
-                elif password!=c_password:
-                    err="password do not match "
-                elif UserMaster.objects.filter(email=email).exists():
-                    err="This email address is already taken "
-                data={}
-                data['error']=err
-                data['values']=values
-                if err:
-                    return render(request,"register.html",data)
-                user_m=UserMaster(role=role,password=password,email=email)
-                user_m.save()
-                com=Candidate(user_id=user_m,firstname=firstname,lastname=lastname)
-                com.save()
-                myuser=User.objects.create_user(username=email,email=email,first_name=firstname,last_name=lastname,password=password)
-                myuser.save()
-
-                messages.success(request,"your account has been succcessfully created...now you needs login..")
-                return redirect('signin')
-            else:
-                messages.warning(request,"please select your role!!!")
-                return render(request,"register.html")
+            user_name=request.POST['user_name']
+            email=request.POST['mail']
+            password=request.POST['passwd']
+            c_password=request.POST['cpasswd']
+            values={
+            'user_name':user_name,
+            'email':email,
+            'password':password,
+            'c_password':c_password
+            }
+            err=None
+            pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$'
+            if not (email and password):
+                err="all field are required"
+            elif len(password)<8:
+                err="Password must be 8 characters long "
+            elif not re.match(pattern,password):
+                err="Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character "
+            elif password!=c_password:
+                err="password do not match "
+            elif UserMaster.objects.filter(email=email).exists():
+                err="This email address is already taken "
+            data={}
+            data['error']=err
+            data['values']=values
+            if err:
+                return render(request,"register.html",data)
+            user_m=UserMaster(username=user_name,password=password,email=email)
+            user_m.save()
+            can=Candidate(user_id=user_m)
+            can.save()
+            myuser=User.objects.create_user(username=user_name,email=email,password=password)
+            myuser.save()
+            messages.success(request,"your account has been succcessfully created...now you needs login..")
+            return redirect('/signup')
         return render(request,"register.html")
     except Http404:
         return HttpResponseNotFound("page not found")    
 def signin(request):
     try:
         if request.method=="POST":
-            if request.POST['role']=="Candidate":
-                role=request.POST['role']
-                email=request.POST['mail']
-                password=request.POST['passwd']
-                myuser=authenticate(username=email,password=password)
+            email=request.POST['mail']
+            password=request.POST['passwd']
+            user_m=UserMaster.objects.get(email=request.POST['mail'])
+            if user_m:
+                user_n=user_m.username
+            if Candidate.objects.get(user_id=user_m):
+                myuser=authenticate(request,username=user_n,email=email,password=password)
                 if myuser is not None:
                     login(request,myuser)
                     can=User.objects.get(email=email)
@@ -183,7 +115,6 @@ def signin(request):
                     'firstname':firstname,
                     'email':email
                     }    
-                    request.session["role"]=request.POST["role"]
                     request.session["firstname"]=can.first_name
                     request.session["lastname"]=can.last_name
                     request.session["id"]=request.POST['mail']
@@ -191,25 +122,9 @@ def signin(request):
                 else:
                     messages.warning(request,"Do not match your entered password...")
                     return render(request,"login.html")
-            elif request.POST['role']=="Company":
-                role=request.POST['role']
-                email=request.POST['mail']
-                password=request.POST['passwd']
-                myuser=authenticate(username=email,password=password)
-                if myuser is not None:
-                    login(request,myuser)
-                    com=User.objects.get(email=email)
-                    request.session['role']=request.POST["role"]
-                    request.session["firstname"]=com.first_name
-                    request.session["lastname"]=com.last_name
-                    request.session["id"]=request.POST['mail']
-                    return redirect('/')    
-                else:
-                    messages.warning(request,"Do not match your entered password...")
-                    return render(request,"login.html")
             else:
-                messages.warning(request,"please select your role!!!")
-                return render(request,"login.html")
+                messages.warning(request,'you are not Candidate')
+                return render(request,'login.html')
         else:
             # messages.warning(request,"your method not post method")
             return render(request,"login.html")
@@ -233,12 +148,7 @@ def user_profile(request):
         pk=request.session['id']
         user=UserMaster.objects.get(email=pk)
         email=user.email
-        can=Candidate.objects.get(user_id=user)
-        firstname=can.firstname
-        lastname=can.lastname
         context={
-        'firstname':firstname,
-        'lastname':lastname,
         'email':email,
         'countries':countries,
         }
@@ -247,122 +157,121 @@ def user_profile(request):
         return render(request,"login.html")
 def  p_update(request):
     pk=request.session['id']
-    print(pk)
+    # print(pk)
     if pk:
         user_m=UserMaster.objects.get(email=pk)
         can=Candidate.objects.get(user_id=user_m)
+        user=User.objects.get(email=pk)
         if can:
             if request.method=='POST':
-                print(can.firstname)
-                if can.firstname==request.POST['fname']:
-                    can.firstname=request.POST['fname']
-                    can.lastname=request.POST['lname']
-                    user_m.email=request.POST['email']
-                    can.contact=request.POST['contact']
-                    can.state=request.POST['state']
-                    can.city=request.POST['city']
-                    can.address=request.POST['addr']
-                    can.dob=request.POST['dob']
-                    can.gender=request.POST['a']
-                    can.pin=request.POST['pincode']
-                    can.education=request.POST['education']
-                    can.experince=request.POST['experince']
-                    can.country=request.POST['country']
-                    can.skill=request.POST['skill']
-                    can.annual_pay=request.POST['salary']
-                    can.language=request.POST['lang']
-                    can.bio=request.POST['bio']
-                    can.resume=request.FILES['resume']
-                    can.profile_pic=request.FILES['photo']
-                    values={
-                    'contact':can.contact,
-                    'city':can.city,
-                    'state':can.state,
-                    'address':can.address,
-                    'dob':can.dob,
-                    'gender':can.gender,
-                    'pin':can.pin,
-                    'experince':can.experince,
-                    "education":can.education,
-                    'country':can.country,
-                    'skill':can.skill,
-                    'annual_pay':can.annual_pay,
-                    'language':can.language,
-                    'bio':can.bio,
-                    'resume':can.resume,
-                    'profile_pic':can.profile_pic
-                    }
-                    err=None
-                    context={}
+                can.firstname=request.POST['fname']
+                can.lastname=request.POST['lname']
+                user_m.email=request.POST['email']
+                can.contact=request.POST['contact']
+                can.state=request.POST['state']
+                can.city=request.POST['city']
+                can.address=request.POST['addr']
+                can.dob=request.POST['dob']
+                can.gender=request.POST['a']
+                can.pin=request.POST['pincode']
+                can.education=request.POST['education']
+                can.experince=request.POST['experince']
+                can.country=request.POST['country']
+                can.skill=request.POST['skill']
+                can.annual_pay=request.POST['salary']
+                can.language=request.POST['lang']
+                can.bio=request.POST['bio']
+                can.resume=request.FILES['resume']
+                can.profile_pic=request.FILES['photo']
+                values={
+                'contact':can.contact,
+                'city':can.city,
+                'state':can.state,
+                'address':can.address,
+                'dob':can.dob,
+                'gender':can.gender,
+                'pin':can.pin,
+                'experince':can.experince,
+                "education":can.education,
+                'country':can.country,
+                'skill':can.skill,
+                'annual_pay':can.annual_pay,
+                'language':can.language,
+                'bio':can.bio,
+                'resume':can.resume,
+                'profile_pic':can.profile_pic
+                }
+                err=None
+                context={}
                     # pattern = r'^\d{3}-\d{3}-\d{4}$'
-                    if len(can.contact)!=10:
-                        err="Oops! The contact number should have exactly 10 digits."
-                    if not (can.contact).isdigit():
-                        err="Oops! The contact number should only contain numeric digits."
+                if len(can.contact)!=10:
+                    err="Oops! The contact number should have exactly 10 digits."
+                if not (can.contact).isdigit():
+                    err="Oops! The contact number should only contain numeric digits."
                     # if re.match(pattern,(can.contact)):
                     #     err="Oops! The contact number is in an incorrect format."
-                    if not can.state:
-                        err="State name is required."
-                    if len(can.state)<2 and len(can.state)>50:
-                        err="State name should be between 2 and 50 characters."
-                    if not re.match(r'^[A-Za-z0-9\s\.,?!]+$',can.state):
-                        err="State name should contain only alphabetic characters."
-                    if can.state.isspace():
-                        err="spaces are not allowed"
-                    if not can.city:
-                        err="city name is required."
-                    if len(can.city)<2 and len(can.city)>50:
-                        err="city name should be between 2 and 50 characters."
-                    if not re.match(r'^[A-Za-z0-9\s\.,?!]+$',can.city):
-                        err="city name should contain only alphabetic characters."
-                    if (can.city).isspace():
-                        err="spaces are not allowed"
-                    if not can.address:
-                        err="address is required."
-                    if len(can.address)<2 and len(can.address)>50:
-                        err="address should be between 2 and 50 characters."
-                    if not re.match(r'^[A-Za-z0-9\s\.,?!]+$',can.address):
-                        err="address should contain only alphabetic characters."
-                    if (can.address).isspace():
-                        err="spaces are not allowed"
-                    if not can.dob:
-                        err="date of birth is required"
-                    if len(can.pin)!=6:
-                        err="Oops! PIN code should be 6 digits long!!!!"
-                    if not can.education:
-                        err="Oops!! your highest education is required!!!!"
-                    if not (can.education).isalpha():
-                        err="Oops!!education should contain only characters!!.."
-                    if (can.education).isspace():
-                        err="education are not allowed spaces!!!"
-                    if request.POST['experince']=="Select experience level":
-                        err="please select your work experience!!!"
-                    if request.POST['country']=="======select country======":
-                        err="please select your country name!!!"
-                    if not re.match( r'^[A-Za-z0-9\s\.,?!]+$',(can.skill)):
-                        err="skills should contain only alphabetic characters."
-                    if (can.skill).isspace():
-                        err="only spaces are not allowed"
-                    if not re.match( r'^[A-Za-z0-9\s\.,?!]+$',(can.bio)):
-                        err="Invalid bio format."
-                    if (can.bio).isspace():
-                        err="only spaces are not allowed"
-                    if err:
-                        context['values']=values
-                        context['err']=err
-                        context['firstname']=can.firstname
-                        context['lastname']=can.lastname
-                        context['email']=user_m.email
-                        return render(request,"user_profile.html",context)
-                    else:
-                        can.save()
-                        messages.success(request,"your account succcessfully updated...!!")
-                        ph_num=Candidate.objects.get(user_id=user_m)
-                        request.session['number']=ph_num.contact
-                        return redirect('/c-profile') 
+                if not can.state:
+                    err="State name is required."
+                if len(can.state)<2 and len(can.state)>50:
+                    err="State name should be between 2 and 50 characters."
+                if not re.match(r'^[A-Za-z0-9\s\.,?!]+$',can.state):
+                    err="State name should contain only alphabetic characters."
+                if can.state.isspace():
+                    err="spaces are not allowed"
+                if not can.city:
+                    err="city name is required."
+                if len(can.city)<2 and len(can.city)>50:
+                    err="city name should be between 2 and 50 characters."
+                if not re.match(r'^[A-Za-z0-9\s\.,?!]+$',can.city):
+                    err="city name should contain only alphabetic characters."
+                if (can.city).isspace():
+                    err="spaces are not allowed"
+                if not can.address:
+                    err="address is required."
+                if len(can.address)<2 and len(can.address)>50:
+                    err="address should be between 2 and 50 characters."
+                if not re.match(r'^[A-Za-z0-9\s\.,?!]+$',can.address):
+                    err="address should contain only alphabetic characters."
+                if (can.address).isspace():
+                    err="spaces are not allowed"
+                if not can.dob:
+                    err="date of birth is required"
+                if len(can.pin)!=6:
+                    err="Oops! PIN code should be 6 digits long!!!!"
+                if not can.education:
+                    err="Oops!! your highest education is required!!!!"
+                if not (can.education).isalpha():
+                    err="Oops!!education should contain only characters!!.."
+                if (can.education).isspace():
+                    err="education are not allowed spaces!!!"
+                if request.POST['experince']=="Select experience level":
+                    err="please select your work experience!!!"
+                if request.POST['country']=="======select country======":
+                    err="please select your country name!!!"
+                if not re.match( r'^[A-Za-z0-9\s\.,?!]+$',(can.skill)):
+                    err="skills should contain only alphabetic characters."
+                if (can.skill).isspace():
+                    err="only spaces are not allowed"
+                if not re.match( r'^[A-Za-z0-9\s\.,?!]+$',(can.bio)):
+                    err="Invalid bio format."
+                if (can.bio).isspace():
+                    err="only spaces are not allowed"
+                user.first_name=can.firstname
+                user.last_name=can.lastname
+                if err:
+                    context['values']=values
+                    context['err']=err
+                    context['firstname']=can.firstname
+                    context['lastname']=can.lastname
+                    context['email']=user_m.email
+                    return render(request,"user_profile.html",context)
                 else:
-                    messages.warning(request,"Invalid credientials!!!")
-                    return redirect('/user_profile')  
+                    user.save()
+                    can.save()
+                    messages.success(request,"your account succcessfully updated...!!")
+                    # ph_num=Candidate.objects.get(user_id=user_m)
+                    # request.session['number']=ph_num.contact
+                    return redirect('/c-profile')   
 def c_profile(request):
     if request.session.has_key('id'):
         pk=request.session['id']
@@ -380,3 +289,70 @@ def edit(request):
         return render(request,"edit.html")
     else:
         return  render(request,"login.html")
+def github_login(request):
+    return  render(request,"index.html")
+def com_register(request):
+    if request.method=="POST":
+        user_name=request.POST['user_name']
+        email=request.POST['mail']
+        password=request.POST['passwd']
+        c_password=request.POST['cpasswd']
+        values={
+        'user_name':user_name,
+        'email':email ,
+        'password':password,
+        'c_password':c_password
+        }
+        err=None
+        pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$'
+        if not (comp_name and email and password):
+            err="all field are required"
+        elif len(password)<8:
+            err="Password must be 8 characters long "
+        elif not re.match(pattern,password):
+            err="Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character "
+        elif password!=c_password:
+            err="password do not match "
+        elif UserMaster.objects.filter(email=email).exists():
+            err="This email address is already taken "
+        data={}
+        data['error']=err
+        data['values']=values
+        if err:
+            return render(request,"company_register.html",data)
+        user_m=UserMaster(username=user_name,password=password,email=email)
+        user_m.save()
+        com=Company(user_id=user_m)
+        com.save()
+        myuser=User.objects.create_user(username=user_name,email=email,password=password)
+        myuser.save()
+
+        messages.success(request,"your account has been succcessfully created...now you needs login..")
+        return redirect('/com_register')
+    return render(request,'company_register.html')
+def com_login(request):
+    if request.method=="POST":
+        email=request.POST['mail']
+        password=request.POST['passwd']
+        user_m=UserMaster.objects.get(email=email)
+        if user_m:
+            user_n=user_m.username
+        if Company.objects.get(user_id=user_m):
+            myuser=authenticate(request,username=user_n,email=email,password=password)
+            if myuser is not None:
+                login(request,myuser)
+                com=User.objects.get(email=email)
+                request.session["firstname"]=com.first_name
+                request.session["lastname"]=com.last_name
+                request.session["id"]=request.POST['mail']
+                return redirect('/')    
+            else:
+                messages.warning(request,"Do not match your entered password...")
+                return render(request,"com_login.html")
+        else:
+            messages.warning(request,'you are not Company...')
+            return render(request,"com_login.html")
+    else:
+        # messages.warning(request,"your method not post method")
+        return render(request,"com_login.html")        
+    return render(request,'com_login.html')
