@@ -99,7 +99,7 @@ def signin(request):
         if request.method=="POST":
             email=request.POST['mail']
             password=request.POST['passwd']
-            user_m=UserMaster.objects.get(email=request.POST['mail'])
+            user_m=UserMaster.objects.get(email=email)
             if user_m:
                 user_n=user_m.username
             if Candidate.objects.get(user_id=user_m):
@@ -286,9 +286,64 @@ def c_profile(request):
         return render(request,'login.html')
 def edit(request):
     if request.session.has_key('id'):
+        pk=request.session['id']
+        user_m=UserMaster.objects.get(email=pk)
+        cand=Candidate.objects.get(user_id=user_m)
+        if user_m:
+            data={}            
+            data['email']=user_m.email
+            data['password']=user_m.password
+            data['firstname']=cand.firstname
+            data['lastname']=cand.lastname
+            data['contact']=cand.contact
+            data['state']=cand.state
+            data['city']=cand.city
+            data['address']=cand.address
+            data['dob']=cand.dob
+            data['pincode']=cand.pin
+            data['education']=cand.education
+            data['experince']=cand.experince
+            data['country']=cand.country
+            data['skill']=cand.skill
+            data['annual_pay']=cand.annual_pay
+            data['language']=cand.language
+            data['bio']=cand.bio
+            data['resume']=cand.resume
+            data['photo']=cand.profile_pic
+            return render(request,'edit.html',data)
         return render(request,"edit.html")
     else:
         return  render(request,"login.html")
+def editable(request):
+    pk=request.session['id']
+    if pk:
+        user_m=UserMaster.objects.get(email=pk)
+        cand=Candidate.objects.get(user_id=user_m)
+        if user_m:
+            if request.method=='POST':
+                user_m.email=request.POST['email']
+                user_m.password=request.POST['passwd']
+                cand.firstname=request.POST['fname']
+                cand.lastname=request.POST['lname']
+                cand.contact=request.POST['contact']
+                cand.state=request.POST['state']
+                cand.city=request.POST['city']
+                cand.address=request.POST['addr']
+                cand.dob=request.POST['dob']
+                cand.pincode=request.POST['pincode']
+                cand.education=request.POST['education']
+                cand.experince=request.POST['experince']
+                cand.country=request.POST['country']
+                cand.skill=request.POST['skill']
+                cand.annual_pay=request.POST['except']
+                cand.language=request.POST['language']
+                cand.bio=request.POST['bio']
+                cand.resume=request.POST['resume']
+                cand.profile_pic=request.POST['photo']
+                user_m.save()
+                cand.save()
+                messages.success(request,'your changes succcessfully done')
+                return redirect('/')
 def github_login(request):
     return  render(request,"index.html")
 def com_register(request):

@@ -18,11 +18,14 @@
         .sec1 {
             width: auto;
             background-image: url(https://images.unsplash.com/photo-1488572749058-7f52dd70e0fa?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=400&ixid=MnwxfDB8MXxyYW5kb218MHx8d2FsbHBhcGVyLGxhbmRzY2FwZXx8fHx8fDE2ODU0NDM0MjM&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1920);
+            -webkit-animation:bg-pan-tl 8s ease-in-out infinite reverse both;
+            animation:bg-pan-tl 8s ease-in-out infinite reverse both;
             background-size: cover;
             background-attachment: fixed;
             background-origin: content-box;
             background-clip: padding-box;
         }
+@-webkit-keyframes bg-pan-tl{0%{background-position:100% 100%}100%{background-position:0 0}}@keyframes bg-pan-tl{0%{background-position:100% 100%}100%{background-position:0 0}}
 
         .btn-lg {
             margin-top: 160px;
